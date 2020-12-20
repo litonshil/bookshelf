@@ -6,23 +6,24 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import AddBook from "./books/AddBook";
+import EditBook from "./books/EditBook";
 class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <div className="container">
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/books" component={AddBook} />
-            
-          </Switch>
-        </div>
-      </BrowserRouter>
-    );
-  }
+    render() {
+        return (
+            <BrowserRouter>
+                <div className="container">
+                    <Switch>
+                        <Route path="/" exact component={Home} />
+                        <Route path="/login" component={Login} />
+                        <Route path="/register" component={Register} />
+                        <Route path="/dashboard" component={Dashboard} />
+                        <Route path="/books" component={AddBook} />
+                        <Route path="/edit-book" component={EditBook} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;

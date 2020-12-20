@@ -1,24 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import Axios from "axios";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { register } from "../store/actions/authActions";
-
-class Register extends React.Component {
+import { add } from "../../store/actions/addBookActions";
+class EditBook extends React.Component {
     state = {
         name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        author: "",
+        authorEmail: "",
+        publication: "",
         error: {},
     };
-
     static getDrivedStateFromProps(nextProps, prevState) {
         if (
-            JSON.stringify(nextProps.auth.error) !==
+            JSON.stringify(nextProps.bookss.error) !==
             JSON.stringify(prevState.error)
         ) {
             return {
-                error: nextProps.auth.error,
+                error: nextProps.bookss.error,
             };
         }
         return null;
@@ -29,24 +27,23 @@ class Register extends React.Component {
             [event.target.name]: event.target.value,
         });
     };
-    submitHanler = (event) => {
+    submitHandler = (event) => {
         event.preventDefault();
-        let { name, email, password, confirmPassword } = this.state;
-        this.props.register(
-            { name, email, password, confirmPassword },
+        let { name, author, authorEmail, publication } = this.state;
+        this.props.add(
+            { name, author, authorEmail, publication },
             this.props.history
         );
     };
-
     render() {
-        let { name, email, password, confirmPassword, error } = this.state;
+        let { name, author, authorEmail, publication, error } = this.state;
+
         return (
-            <div className="row">
-                <div className="col-md-6 offset-md-3">
-                    <h1 className="text-center display-4">Register here</h1>
-                    <form onSubmit={this.submitHanler}>
+            <div className="card border-0 shadow">
+                <div className="card-header">Edit A Book</div>
+                <div className="card-body">
+                    <form onSubmit={this.submitHandler}>
                         <div className="form-group">
-                            <label htmlFor="name">Name:</label>
                             <input
                                 type="text"
                                 className={
@@ -54,9 +51,9 @@ class Register extends React.Component {
                                         ? "form-control is-invalid"
                                         : "form-control"
                                 }
-                                placeholder="Enter Your Name"
                                 name="name"
                                 id="name"
+                                placeholder="Enter Book Name"
                                 value={name}
                                 onChange={this.changeHandler}
                             />
@@ -67,76 +64,67 @@ class Register extends React.Component {
                             )}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="email">Email:</label>
+                            <input
+                                type="text"
+                                className={
+                                    error.author
+                                        ? "form-control is-invalid"
+                                        : "form-control"
+                                }
+                                name="author"
+                                id="author"
+                                placeholder="Enter Author Name"
+                                value={author}
+                                onChange={this.changeHandler}
+                            />
+                            {error.author && (
+                                <div className="invalid-feedback">
+                                    {error.author}
+                                </div>
+                            )}
+                        </div>
+                        <div className="form-group">
                             <input
                                 type="email"
                                 className={
-                                    error.email
+                                    error.authorEmail
                                         ? "form-control is-invalid"
                                         : "form-control"
                                 }
-                                placeholder="Enter Your Email"
-                                name="email"
-                                id="email"
-                                value={email}
+                                name="authorEmail"
+                                id="authorEmail"
+                                placeholder="Enter Author Email"
+                                value={authorEmail}
                                 onChange={this.changeHandler}
                             />
-                            {error.email && (
+                            {error.authorEmail && (
                                 <div className="invalid-feedback">
-                                    {error.email}
+                                    {error.authorEmail}
                                 </div>
                             )}
                         </div>
                         <div className="form-group">
-                            <label htmlFor="password">Passwword:</label>
                             <input
                                 type="text"
                                 className={
-                                    error.password
+                                    error.publication
                                         ? "form-control is-invalid"
                                         : "form-control"
                                 }
-                                placeholder="Enter Your Password"
-                                name="password"
-                                id="password"
-                                value={password}
+                                name="publication"
+                                id="publication"
+                                placeholder="Enter Publication Name"
+                                value={publication}
                                 onChange={this.changeHandler}
                             />
-                            {error.password && (
+                            {error.publication && (
                                 <div className="invalid-feedback">
-                                    {error.password}
+                                    {error.publication}
                                 </div>
                             )}
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="confirmPassword">
-                                Confirm Password:
-                            </label>
-                            <input
-                                type="text"
-                                className={
-                                    error.confirmPassword
-                                        ? "form-control is-invalid"
-                                        : "form-control"
-                                }
-                                placeholder="Confirm your password"
-                                name="confirmPassword"
-                                id="confirmPassword"
-                                value={confirmPassword}
-                                onChange={this.changeHandler}
-                            />
-                            {error.confirmPassword && (
-                                <div className="invalid-feedback">
-                                    {error.confirmPassword}
-                                </div>
-                            )}
-                        </div>
-                        <Link to="/login">
-                            Already Have Account?Login Here!!
-                        </Link>
-
-                        <button className="btn btn-primary my-3 d-block">
-                            Register
+                        <button className="btn btn-primary" type="submit">
+                            Update Book
                         </button>
                     </form>
                 </div>
@@ -146,7 +134,7 @@ class Register extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    auth: state.auth,
+    bookss: state.bookss,
 });
 
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { add })(EditBook);

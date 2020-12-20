@@ -1,12 +1,31 @@
-import * as Types from '../actions/types'
+import * as Types from "../actions/types";
 
-const bookReducer = (state=[],action) => {
-    switch(action.type) {
+const init = {
+    isAuthenticated: false,
+    book: [],
+    error: {},
+};
+
+const bookReducer = (state = init, action) => {
+    console.log("reducer called", action);
+    switch (action.type) {
         case Types.LOAD_BOOKS: {
-            return action.payload.books
+            return {
+                ...state,
+                book: [...state.book],
+                isAuthenticated: Object.keys(action.payload.user).length !== 0,
+                error: {},
+            };
         }
-        default: return state
+        case Types.SET_BOOK: {
+            return {
+                ...state,
+                book: [...state.book, action.payload.book],
+            };
+        }
+        default:
+            return state;
     }
-}
+};
 
-export default bookReducer 
+export default bookReducer;

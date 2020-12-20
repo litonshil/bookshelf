@@ -1,17 +1,17 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const valid = require('validator')
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const valid = require("validator");
 
 const bookSchema = new Schema({
-    name:{
+    name: {
         type: String,
         trim: true,
-        required: true
+        required: true,
     },
-    author:{
+    author: {
         type: String,
         trim: true,
-        required: true
+        required: true,
     },
     authorEmail: {
         type: String,
@@ -19,18 +19,17 @@ const bookSchema = new Schema({
         required: true,
         validate: {
             validator: (v) => {
-                return valid.isEmail(v)
+                return valid.isEmail(v);
             },
-            message: `{VALUE} is not an email`
-        }
+            message: `{VALUE} is not an email`,
+        },
     },
-    publication:{
+    publication: {
         type: String,
         trim: true,
-        required: true
-    }
+        required: true,
+    },
+});
 
-})
-
-const Book = mongoose.model('Book',bookSchema)
-module.exports = Book
+const Book = mongoose.model("Book", bookSchema);
+module.exports = Book;
